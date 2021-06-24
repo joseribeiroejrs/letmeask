@@ -1,5 +1,4 @@
 .button {
-    margin-top: 64px;
     height: 50px;
     border-radius: 8px;
     font-weight: 500;
@@ -15,6 +14,8 @@
     border: 0;
 
     transition: filter .2s;
+
+    font-family: 'Roboto', sans-serif;
 
     &:not(:disabled):hover {
         filter: brightness(.9);
