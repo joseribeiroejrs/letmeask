@@ -1,4 +1,4 @@
-import CopyImg from "../../../../assets/images/copy.svg";
+import CopyImg from "../../assets/images/copy.svg";
 import "./styles.scss";
 
 type RoomCodeProps = {
