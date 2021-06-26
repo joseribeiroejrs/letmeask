@@ -24,11 +24,13 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LET_ME_ASK_ED8B7 }}'
           projectId: let-me-ask-ed8b7
-          REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
-          REACT_APP_AUTH_DOMAIN: ${{ secrets.REACT_APP_AUTH_DOMAIN }}
-          REACT_APP_DATABASE_URL: ${{ secrets.REACT_APP_DATABASE_URL }}
-          REACT_APP_PROJECT_ID: ${{ secrets.REACT_APP_PROJECT_ID }}
-          REACT_APP_STORAGE_BUCKET: ${{ secrets.REACT_APP_STORAGE_BUCKET }}
-          REACT_APP_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_MESSAGING_SENDER_ID }}
-          REACT_APP_APP_ID: ${{ secrets.REACT_APP_APP_ID }}
-          REACT_APP_MEASUREMENT_ID: ${{ secrets.REACT_APP_MEASUREMENT_ID }}
+          envkey_REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
+          envkey_REACT_APP_AUTH_DOMAIN: ${{ secrets.REACT_APP_AUTH_DOMAIN }}
+          envkey_REACT_APP_DATABASE_URL: ${{ secrets.REACT_APP_DATABASE_URL }}
+          envkey_REACT_APP_PROJECT_ID: ${{ secrets.REACT_APP_PROJECT_ID }}
+          envkey_REACT_APP_STORAGE_BUCKET: ${{ secrets.REACT_APP_STORAGE_BUCKET }}
+          envkey_REACT_APP_MESSAGING_SENDER_ID: ${{ secrets.REACT_APP_MESSAGING_SENDER_ID }}
+          envkey_REACT_APP_APP_ID: ${{ secrets.REACT_APP_APP_ID }}
+          envkey_REACT_APP_MEASUREMENT_ID: ${{ secrets.REACT_APP_MEASUREMENT_ID }}
+          directory: /
+          file_name: .env.production
