@@ -1,0 +1,35 @@
+.custom-modal {
+	$min-height-modal: 350px;
+	$min-width-modal: 600px;
+
+	border-radius: 8px;
+	min-width: $min-width-modal;
+
+	.modal-container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		padding: 32px;
+
+		.modal-title {
+			color: #29292E;
+			font-family: "Poppins", sans-serif;
+			font-size: 24px;
+			padding: 16px;
+		}
+
+		.modal-description {
+			color: #737380;
+			font-family: "Roboto", sans-serif;
+			font-size: 16px;
+			padding: 8px;
+		}
+
+		.modal-actions {
+			display: flex;
+			gap: 16px;
+			margin-top: 16px;
+		}
+	}
+}

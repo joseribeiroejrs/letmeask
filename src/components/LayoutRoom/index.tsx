@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import toast from "react-hot-toast";
+
 import { Button } from "../Button";
 import { RoomCode } from "../RoomCode";
 
@@ -8,6 +9,8 @@ import { useHistory, useParams } from "react-router";
 import { database } from "../../services/firebase";
 import { useRoom } from "../../hooks/useRoom";
 import "./styles.scss";
+import { Modal } from "../Modal";
+import { useState } from "react";
 
 type RoomParams = {
 	id: string;
@@ -24,6 +27,7 @@ export const LayoutRoom = (props: LayoutRoomProps): JSX.Element => {
 	const params = useParams<RoomParams>();
 	const roomId = params.id;
 	const { title, questions } = useRoom(roomId);
+	const [isOpenModal, setIsOpenModal] = useState(false);
 
 	const goToHome = () => {
 		history.push("/");
@@ -32,7 +36,7 @@ export const LayoutRoom = (props: LayoutRoomProps): JSX.Element => {
 	const renderEndRoomButton = () => {
 		if (isAdmin) {
 			return (
-				<Button isOutlined onClick={handleEndRoom}>
+				<Button styleButton="outlined" onClick={() => setIsOpenModal(true)}>
 					Encerrar Sala
 				</Button>
 			);
@@ -41,20 +45,18 @@ export const LayoutRoom = (props: LayoutRoomProps): JSX.Element => {
 	};
 
 	const handleEndRoom = async () => {
-		const alertMessage = "Tem certeza que deseja encerrar a sala?";
-		if (window.confirm(alertMessage)) {
-			const loadToast = toast.loading(`Encerrando sala...`);
-			try {
-				await database.ref(`rooms/${roomId}`).update({
-					endedAt: new Date(),
-				});
-				history.push("/");
-				toast.success(`Sala encerrada com sucesso`);
-			} catch (e) {
-				toast.error(`Erro ao encerra a sala`);
-			} finally {
-				toast.dismiss(loadToast);
-			}
+		const loadToast = toast.loading(`Encerrando sala...`);
+		try {
+			await database.ref(`rooms/${roomId}`).update({
+				endedAt: new Date(),
+			});
+			history.push("/");
+			toast.success(`Sala encerrada com sucesso`);
+		} catch (e) {
+			toast.error(`Erro ao encerra a sala`);
+		} finally {
+			toast.dismiss(loadToast);
+			setIsOpenModal(false);
 		}
 	};
 
@@ -83,6 +85,14 @@ export const LayoutRoom = (props: LayoutRoomProps): JSX.Element => {
 				</div>
 				<>{children}</>
 			</main>
+			<Modal
+				isOpen={isOpenModal}
+				onClose={() => setIsOpenModal(false)}
+				confirmEvent={() => handleEndRoom()}
+				title="Encerrar sala"
+				description="Tem certeza que você deseja encerrar esta sala?"
+				primaryButtonLabel="Sim, encerrar"
+			></Modal>
 		</div>
 	);
 };
