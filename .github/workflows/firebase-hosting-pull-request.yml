@@ -28,7 +28,7 @@ jobs:
           REACT_APP_APP_ID: ${{ secrets.REACT_APP_APP_ID }}
           REACT_APP_MEASUREMENT_ID: ${{ secrets.REACT_APP_MEASUREMENT_ID }}
           directory: /
-          file_name: .env.production
+          file_name: '.env.production'
         run: yarn run generate
       - uses: actions/checkout@v2
       - run: npm ci && npm run build
