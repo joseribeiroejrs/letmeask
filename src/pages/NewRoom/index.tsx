@@ -1,8 +1,7 @@
 import React, { useState, FormEvent } from "react";
 import { Link, useHistory } from "react-router-dom";
-
-import IllustrationSVG from "../../assets/images/illustration.svg";
 import LogoImg from "../../assets/images/logo.svg";
+import { AsideWelcomePage } from "../../components/AsideWelcomePage";
 import { Button } from "../../components/Button";
 
 import { useAuth } from "../../hooks/useAuth";
@@ -35,37 +34,27 @@ export const NewRoom = (): JSX.Element => {
 	};
 
 	return (
-		<div id="page-auth">
-			<aside>
-				<img
-					src={IllustrationSVG}
-					alt="Ilustração simbolizando perguntas e respostas"
-				/>
-				<strong>Crie salas de Q&amp;A ao vivo</strong>
-				<p>Tire as dúvidas de sua audiência em tempo real</p>
-			</aside>
-			<main>
-				<div className="main-content">
-					<img src={LogoImg} alt="Let me ask" />
-					<div className="user-info">
-						<img src={user?.avatar} alt={user?.name} />
-						<h1>{user?.name}</h1>
-					</div>
-					<h2>Criar uma nova sala</h2>
-					<form onSubmit={(event) => handleCreateRoom(event)}>
-						<input
-							type="text"
-							placeholder="Nome da sala"
-							// value={newRoom}
-							onChange={(event) => setNewRoom(event.target.value)}
-						/>
-						<Button type="submit">Criar sala</Button>
-					</form>
-					<p>
-						Quer entrar em uma sala existente? <Link to="/">Clique aqui</Link>
-					</p>
+		<AsideWelcomePage>
+			<div className="main-content">
+				<img src={LogoImg} alt="Let me ask" />
+				<div className="user-info">
+					<img src={user?.avatar} alt={user?.name} />
+					<h1>{user?.name}</h1>
 				</div>
-			</main>
-		</div>
+				<h2>Criar uma nova sala</h2>
+				<form onSubmit={(event) => handleCreateRoom(event)}>
+					<input
+						type="text"
+						placeholder="Nome da sala"
+						// value={newRoom}
+						onChange={(event) => setNewRoom(event.target.value)}
+					/>
+					<Button type="submit">Criar sala</Button>
+				</form>
+				<p>
+					Quer entrar em uma sala existente? <Link to="/">Clique aqui</Link>
+				</p>
+			</div>
+		</AsideWelcomePage>
 	);
 };
