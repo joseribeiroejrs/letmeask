@@ -8,6 +8,7 @@ import { useRoom } from "../../hooks/useRoom";
 import { database } from "../../services/firebase";
 import { RoomCode } from "../../components/RoomCode";
 import "../../styles/room.scss";
+import { Empty, EmptyType } from "../../components/Empty";
 
 type RoomParams = {
 	id: string;
@@ -21,6 +22,11 @@ export const Room = (): JSX.Element => {
 	const { title, questions } = useRoom(roomId);
 
 	const [newQuestion, setNewQuestion] = useState("");
+	const emptyLabels: EmptyType = {
+		title: "Nenhuma pergunta por aqui...",
+		description:
+			"Faça o seu login e seja a primeira pessoa a fazer uma pergunta!",
+	};
 
 	const handleNewQuestionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
 		setNewQuestion(event.target.value);
@@ -154,6 +160,8 @@ export const Room = (): JSX.Element => {
 							)}
 						</Question>
 					))}
+
+					{!questions?.length && <Empty {...emptyLabels} />}
 				</div>
 			</main>
 		</div>
