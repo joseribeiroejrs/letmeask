@@ -17,13 +17,9 @@ jobs:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: npm ci && npm run build
-      - uses: FirebaseExtended/action-hosting-deploy@v0
+      - name: Create .env file
+        uses: SpicyPizza/create-envfile@v1
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LET_ME_ASK_ED8B7 }}'
-          projectId: let-me-ask-ed8b7
           envkey_REACT_APP_API_KEY: ${{ secrets.REACT_APP_API_KEY }}
           envkey_REACT_APP_AUTH_DOMAIN: ${{ secrets.REACT_APP_AUTH_DOMAIN }}
           envkey_REACT_APP_DATABASE_URL: ${{ secrets.REACT_APP_DATABASE_URL }}
@@ -34,3 +30,10 @@ jobs:
           envkey_REACT_APP_MEASUREMENT_ID: ${{ secrets.REACT_APP_MEASUREMENT_ID }}
           directory: /
           file_name: .env.production
+      - uses: actions/checkout@v2
+      - run: npm ci && npm run build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_LET_ME_ASK_ED8B7 }}'
+          projectId: let-me-ask-ed8b7
