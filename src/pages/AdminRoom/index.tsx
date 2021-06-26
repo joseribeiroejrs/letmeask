@@ -1,3 +1,4 @@
+import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 
 // import { useAuth } from "../../hooks/useAuth";
@@ -18,119 +19,119 @@ import "../../styles/room.scss";
 // import { useEffect } from "react";
 
 type RoomParams = {
-  id: string;
+	id: string;
 };
 
-export const AdminRoom = () => {
-  // const { user } = useAuth();
-  const history = useHistory();
-  const params = useParams<RoomParams>();
-  const roomId = params.id;
-  const { title, questions } = useRoom(roomId);
+export const AdminRoom = (): JSX.Element => {
+	// const { user } = useAuth();
+	const history = useHistory();
+	const params = useParams<RoomParams>();
+	const roomId = params.id;
+	const { title, questions } = useRoom(roomId);
 
-  // useEffect(() => {
-  //   if (!user) {
-  //     throw new Error("You must be logged in ");
-  //   }
-  // }, [user]);
+	// useEffect(() => {
+	//   if (!user) {
+	//     throw new Error("You must be logged in ");
+	//   }
+	// }, [user]);
 
-  const handleEndRoom = async () => {
-    const alertMessage = "Tem certeza que deseja encerrar a sala?";
-    if (window.confirm(alertMessage)) {
-      await database.ref(`rooms/${roomId}`).update({
-        endedAt: new Date(),
-      });
-      history.push("/");
-    }
-  };
+	const handleEndRoom = async () => {
+		const alertMessage = "Tem certeza que deseja encerrar a sala?";
+		if (window.confirm(alertMessage)) {
+			await database.ref(`rooms/${roomId}`).update({
+				endedAt: new Date(),
+			});
+			history.push("/");
+		}
+	};
 
-  const getQueryUpdateQuestion = (questionId: string) => {
-    return `rooms/${roomId}/questions/${questionId}`;
-  };
+	const getQueryUpdateQuestion = (questionId: string) => {
+		return `rooms/${roomId}/questions/${questionId}`;
+	};
 
-  const handleCheckQuestionAsAnswered = async (
-    questionId: string | undefined
-  ) => {
-    if (questionId) {
-      await database.ref(getQueryUpdateQuestion(questionId)).update({
-        isAnswered: true,
-      });
-    }
-  };
+	const handleCheckQuestionAsAnswered = async (
+		questionId: string | undefined
+	) => {
+		if (questionId) {
+			await database.ref(getQueryUpdateQuestion(questionId)).update({
+				isAnswered: true,
+			});
+		}
+	};
 
-  const handleHighlightQuestion = async (questionId: string | undefined) => {
-    if (questionId) {
-      await database.ref(getQueryUpdateQuestion(questionId)).update({
-        isHighlighted: true,
-      });
-    }
-  };
+	const handleHighlightQuestion = async (questionId: string | undefined) => {
+		if (questionId) {
+			await database.ref(getQueryUpdateQuestion(questionId)).update({
+				isHighlighted: true,
+			});
+		}
+	};
 
-  const handleDeleteQuestion = async (questionId: string | undefined) => {
-    const alertMessage = "Tem certeza que deseja remover essa pergunta?";
-    if (questionId && window.confirm(alertMessage)) {
-      await database.ref(getQueryUpdateQuestion(questionId)).remove();
-    }
-  };
+	const handleDeleteQuestion = async (questionId: string | undefined) => {
+		const alertMessage = "Tem certeza que deseja remover essa pergunta?";
+		if (questionId && window.confirm(alertMessage)) {
+			await database.ref(getQueryUpdateQuestion(questionId)).remove();
+		}
+	};
 
-  return (
-    <div id="page-room">
-      <header>
-        <div className="content">
-          <img src={LogoImg} alt="Let me ask Logo" />
-          <div>
-            <RoomCode code={roomId} />
-            <Button isOutlined onClick={handleEndRoom}>
-              Encerrar Sala
-            </Button>
-          </div>
-        </div>
-      </header>
-      <main>
-        <div className="room-title">
-          <h1>Sala {title}</h1>
-          <span>
-            {questions?.length} pergunta{questions?.length ? "s" : ""}
-          </span>
-        </div>
+	return (
+		<div id="page-room">
+			<header>
+				<div className="content">
+					<img src={LogoImg} alt="Let me ask Logo" />
+					<div>
+						<RoomCode code={roomId} />
+						<Button isOutlined onClick={handleEndRoom}>
+							Encerrar Sala
+						</Button>
+					</div>
+				</div>
+			</header>
+			<main>
+				<div className="room-title">
+					<h1>Sala {title}</h1>
+					<span>
+						{questions?.length} pergunta{questions?.length ? "s" : ""}
+					</span>
+				</div>
 
-        <div className="question-list">
-          {questions.map((question) => (
-            <Question
-              key={question.id}
-              content={question.content}
-              author={question.author}
-              isAnswered={question.isAnswered}
-              isHighlighted={question.isHighlighted}
-            >
-              {!question.isAnswered && (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => handleCheckQuestionAsAnswered(question?.id)}
-                  >
-                    <img src={CheckImg} alt="Marcar pergunta como respondida" />
-                  </button>
+				<div className="question-list">
+					{questions.map((question) => (
+						<Question
+							key={question.id}
+							content={question.content}
+							author={question.author}
+							isAnswered={question.isAnswered}
+							isHighlighted={question.isHighlighted}
+						>
+							{!question.isAnswered && (
+								<>
+									<button
+										type="button"
+										onClick={() => handleCheckQuestionAsAnswered(question?.id)}
+									>
+										<img src={CheckImg} alt="Marcar pergunta como respondida" />
+									</button>
 
-                  <button
-                    type="button"
-                    onClick={() => handleHighlightQuestion(question?.id)}
-                  >
-                    <img src={AnswerImg} alt="Dar destaque a pergunta" />
-                  </button>
-                </>
-              )}
+									<button
+										type="button"
+										onClick={() => handleHighlightQuestion(question?.id)}
+									>
+										<img src={AnswerImg} alt="Dar destaque a pergunta" />
+									</button>
+								</>
+							)}
 
-              <button
-                type="button"
-                onClick={() => handleDeleteQuestion(question?.id)}
-              >
-                <img src={DeleteImg} alt="Remover pergunta" />
-              </button>
-            </Question>
-          ))}
-        </div>
-      </main>
-    </div>
-  );
+							<button
+								type="button"
+								onClick={() => handleDeleteQuestion(question?.id)}
+							>
+								<img src={DeleteImg} alt="Remover pergunta" />
+							</button>
+						</Question>
+					))}
+				</div>
+			</main>
+		</div>
+	);
 };
