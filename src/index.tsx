@@ -6,6 +6,7 @@ import './styles/globals.scss'
 
 ReactDOM.render(
   <React.StrictMode>
+    {console.log(process.env.REACT_APP_AUTH_DOMAIN)}
     <App />
   </React.StrictMode>,
   document.getElementById('root')
