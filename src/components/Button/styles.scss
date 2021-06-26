@@ -32,4 +32,14 @@
 		border: 1px solid #835afd;
 		color: #835afd;
 	}
+
+	&.danger {
+		background: #E73F5D;
+		color: white;
+	}
+
+	&.secondary {
+		background: #DBDCDD;
+		color: #737380;
+	}
 }
