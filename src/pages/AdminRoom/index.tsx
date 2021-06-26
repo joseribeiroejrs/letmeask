@@ -58,7 +58,7 @@ export const AdminRoom = (): JSX.Element => {
 	};
 
 	return (
-		<LayoutRoom>
+		<LayoutRoom isAdmin>
 			<div className="question-list">
 				{questions.map((question) => (
 					<Question

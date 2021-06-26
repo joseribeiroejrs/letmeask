@@ -14,10 +14,11 @@ type RoomParams = {
 
 type LayoutRoomProps = {
 	children?: ReactNode;
+	isAdmin?: boolean;
 };
 
 export const LayoutRoom = (props: LayoutRoomProps): JSX.Element => {
-	const { children } = props;
+	const { children, isAdmin = false } = props;
 	const history = useHistory();
 	const params = useParams<RoomParams>();
 	const roomId = params.id;
@@ -25,6 +26,17 @@ export const LayoutRoom = (props: LayoutRoomProps): JSX.Element => {
 
 	const goToHome = () => {
 		history.push("/");
+	};
+
+	const renderEndRoomButton = () => {
+		if (isAdmin) {
+			return (
+				<Button isOutlined onClick={handleEndRoom}>
+					Encerrar Sala
+				</Button>
+			);
+		}
+		return <></>;
 	};
 
 	const handleEndRoom = async () => {
@@ -49,9 +61,7 @@ export const LayoutRoom = (props: LayoutRoomProps): JSX.Element => {
 					/>
 					<div>
 						<RoomCode code={roomId} />
-						<Button isOutlined onClick={handleEndRoom}>
-							Encerrar Sala
-						</Button>
+						{renderEndRoomButton()}
 					</div>
 				</div>
 			</header>
