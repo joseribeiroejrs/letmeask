@@ -59,7 +59,7 @@ export const LayoutRoom = (props: LayoutRoomProps): JSX.Element => {
 						alt="Let me ask Logo"
 						onClick={goToHome}
 					/>
-					<div>
+					<div className="header-actions">
 						<RoomCode code={roomId} />
 						{renderEndRoomButton()}
 					</div>

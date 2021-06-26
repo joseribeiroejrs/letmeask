@@ -56,3 +56,27 @@
 		}
 	}
 }
+
+
+@media screen and (max-width: 990px) {
+	#page-room {
+		header {
+			padding: 10px;
+
+			.content {
+				flex-direction: column;
+				flex-wrap: wrap;
+			}
+
+			.header-actions {
+				margin-top: 10px;
+				justify-content: center;
+				flex-wrap: wrap;
+			}
+		}
+
+		main {
+			padding: 15px;
+		}
+	}
+}
