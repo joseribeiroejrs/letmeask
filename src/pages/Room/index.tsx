@@ -1,5 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import LogoImg from "../../assets/images/logo.svg";
 import { Button } from "../../components/Button";
 import { Question } from "../../components/Question";
@@ -15,6 +15,7 @@ type RoomParams = {
 
 export const Room = (): JSX.Element => {
 	const { user } = useAuth();
+	const history = useHistory();
 	const params = useParams<RoomParams>();
 	const roomId = params.id;
 	const { title, questions } = useRoom(roomId);
@@ -23,6 +24,10 @@ export const Room = (): JSX.Element => {
 
 	const handleNewQuestionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
 		setNewQuestion(event.target.value);
+	};
+
+	const goToHome = () => {
+		history.push("/");
 	};
 
 	const handleSendQuestion = async (event: FormEvent) => {
@@ -71,7 +76,12 @@ export const Room = (): JSX.Element => {
 		<div id="page-room">
 			<header>
 				<div className="content">
-					<img src={LogoImg} alt="Let me ask Logo" />
+					<img
+						className="logo"
+						src={LogoImg}
+						alt="Let me ask Logo"
+						onClick={goToHome}
+					/>
 					<RoomCode code={roomId} />
 				</div>
 			</header>

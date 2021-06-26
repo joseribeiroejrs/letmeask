@@ -10,9 +10,21 @@ main {
 			color: #e559f9;
 		}
 
+		.user-info {
+			margin: 48px 0 16px;
+
+			img {
+				border-radius: 50%;
+			}
+
+			Button {
+				margin: 0 auto;
+			}
+		}
+
 		h2 {
 			font-size: 24px;
-			margin: 64px 0 24px;
+			margin: 24px 0 24px;
 			font-family: 'Poppins', sans-serif;
 		}
 	}

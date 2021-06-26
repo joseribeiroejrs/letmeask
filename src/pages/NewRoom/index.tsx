@@ -30,7 +30,7 @@ export const NewRoom = (): JSX.Element => {
 			authorId: user?.id,
 		});
 
-		history.push(`/rooms/${firebaseRoom.key}`);
+		history.push(`/admin/rooms/${firebaseRoom.key}`);
 		console.log(newRoom);
 	};
 
@@ -47,7 +47,10 @@ export const NewRoom = (): JSX.Element => {
 			<main>
 				<div className="main-content">
 					<img src={LogoImg} alt="Let me ask" />
-					<h1>{user?.name}</h1>
+					<div className="user-info">
+						<img src={user?.avatar} alt={user?.name} />
+						<h1>{user?.name}</h1>
+					</div>
 					<h2>Criar uma nova sala</h2>
 					<form onSubmit={(event) => handleCreateRoom(event)}>
 						<input

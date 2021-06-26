@@ -40,15 +40,17 @@ export const AuthContextProvider = (
 	}, [user]);
 
 	const updateUserValues = (user: UserFirebaseType) => {
-		const { displayName, photoURL, uid } = user;
-		if (!displayName || !photoURL) {
-			throw new Error("Missing information from Google Account");
+		if (user) {
+			const { displayName, photoURL, uid } = user;
+			if (!displayName || !photoURL) {
+				throw new Error("Missing information from Google Account");
+			}
+			setUser({
+				id: uid,
+				name: displayName,
+				avatar: photoURL,
+			});
 		}
-		setUser({
-			id: uid,
-			name: displayName,
-			avatar: photoURL,
-		});
 	};
 
 	const signInWithGoogle = async () => {

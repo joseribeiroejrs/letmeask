@@ -63,7 +63,8 @@
 					margin-top: 16px;
 				}
 
-				button, input {
+				button,
+				input {
 					width: 100%;
 				}
 
@@ -100,15 +101,18 @@
 		height: 50px;
 		border-radius: 8px;
 		font-weight: 500;
-		background: #ea4335;
-		color: #fff;
+		background: transparent; // #ea4335;
+		border: 1px solid #A8A8B3;
+		color: #29292E;
+		font-weight: bold;
+		font-family: 'Roboto', sans-serif;
+		font-size: 16px;
 
 		display: flex;
 		justify-content: center;
 		align-items: center;
 
 		cursor: pointer;
-		border: 0;
 
 		transition: filter .2s;
 
