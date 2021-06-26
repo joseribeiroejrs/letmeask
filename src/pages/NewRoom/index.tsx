@@ -1,11 +1,11 @@
 import React, { useState, FormEvent } from "react";
 import { Link, useHistory } from "react-router-dom";
+import toast from "react-hot-toast";
+
 import LogoImg from "../../assets/images/logo.svg";
 import { AsideWelcomePage } from "../../components/AsideWelcomePage";
 import { Button } from "../../components/Button";
-
 import { useAuth } from "../../hooks/useAuth";
-
 import { database } from "../../services/firebase";
 
 import "../Home/styles.scss";
@@ -17,20 +17,27 @@ export const NewRoom = (): JSX.Element => {
 	const history = useHistory();
 
 	const handleCreateRoom = async (event: FormEvent) => {
-		event.preventDefault();
+		const loadToast = toast.loading(`Criando sala...`);
+		try {
+			event.preventDefault();
 
-		if (newRoom.trim() === "") {
-			return;
+			if (newRoom.trim() === "") {
+				return;
+			}
+
+			const roomRef = database.ref("rooms");
+			const firebaseRoom = await roomRef.push({
+				title: newRoom,
+				authorId: user?.id,
+			});
+
+			history.push(`/admin/rooms/${firebaseRoom.key}`);
+			toast.success(`A sua sala ${newRoom} foi criada com sucesso!`);
+		} catch (e) {
+			toast.error(`Ops, ocorreu um erro ao criar a sala`);
+		} finally {
+			toast.dismiss(loadToast);
 		}
-
-		const roomRef = database.ref("rooms");
-		const firebaseRoom = await roomRef.push({
-			title: newRoom,
-			authorId: user?.id,
-		});
-
-		history.push(`/admin/rooms/${firebaseRoom.key}`);
-		console.log(newRoom);
 	};
 
 	return (

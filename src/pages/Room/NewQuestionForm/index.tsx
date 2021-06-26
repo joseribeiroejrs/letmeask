@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { Button } from "../../../components/Button";
 import { UserType } from "../../../contexts/AuthContext";
@@ -6,7 +7,6 @@ import { useAuth } from "../../../hooks/useAuth";
 import { database } from "../../../services/firebase";
 import { RoomParams } from "../../AdminRoom/AdminQuestionsOptions";
 
-// TODO: REACT HOT TOAST COLOCAR NO FUTURO
 // TODO: REACT MODAL TAMBEM
 export const NewQuestionForm = (): JSX.Element => {
 	const { user } = useAuth();
@@ -33,19 +33,26 @@ export const NewQuestionForm = (): JSX.Element => {
 	};
 
 	const handleSendQuestion = async (event: FormEvent) => {
-		event.preventDefault();
+		const loadToast = toast.loading(`Enviando pergunta...`);
+		try {
+			event.preventDefault();
 
-		if (newQuestion.trim() === "") {
-			return;
+			if (newQuestion.trim() === "") {
+				return;
+			}
+
+			if (!user) {
+				throw new Error("You must be logged in ");
+			}
+			const question = getRequestPayload(newQuestion, user);
+			await database.ref(`rooms/${roomId}/questions`).push(question);
+			setNewQuestion("");
+			toast.success(`Sucesso ao enviar a pergunta`);
+		} catch (e) {
+			toast.error(`Erro ao enviar a pergunta`);
+		} finally {
+			toast.dismiss(loadToast);
 		}
-
-		if (!user) {
-			throw new Error("You must be logged in ");
-		}
-
-		const question = getRequestPayload(newQuestion, user);
-		await database.ref(`rooms/${roomId}/questions`).push(question);
-		setNewQuestion("");
 	};
 
 	return (

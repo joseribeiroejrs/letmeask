@@ -1,5 +1,7 @@
 import React, { FormEvent, useState } from "react";
 import { useHistory } from "react-router-dom";
+import toast from "react-hot-toast";
+
 import LogoImg from "../../assets/images/logo.svg";
 import GoogleIconImg from "../../assets/images/google-icon.svg";
 import { Button } from "../../components/Button";
@@ -14,30 +16,48 @@ export const Home = (): JSX.Element => {
 	const [roomCode, setRoomCode] = useState("");
 
 	const handleCreateRoom = async () => {
-		if (!user) {
-			await signInWithGoogle();
+		const loadingToast = toast.loading(`Aguarde enquanto te identificamos...`);
+		try {
+			if (!user) {
+				await signInWithGoogle();
+			}
+			toast(`Bom te ver de novo ${user?.name}!`);
+			history.push("/rooms/new");
+		} catch (e) {
+			toast.dismiss(loadingToast);
+			toast.error("Erro ao realizar login");
+		} finally {
+			toast.dismiss(loadingToast);
 		}
-		history.push("/rooms/new");
 	};
 
 	const handleJoinRoom = async (event: FormEvent) => {
-		event.preventDefault();
-		if (roomCode.trim() === "") {
-			return;
-		}
-		const roomRef = await database.ref(`rooms/${roomCode}`).get();
+		const loadingToast = toast.loading(`Procurando sala...`);
+		try {
+			event.preventDefault();
+			if (roomCode.trim() === "") {
+				return;
+			}
 
-		if (!roomRef.exists()) {
-			alert("Room does not exists.");
-			return;
-		}
+			const roomRef = await database.ref(`rooms/${roomCode}`).get();
 
-		if (roomRef.val().endedAt) {
-			alert("Room already closed.");
-			return;
-		}
+			if (!roomRef.exists()) {
+				toast.error(`A sala não existe`);
+				return;
+			}
 
-		history.push(`/rooms/${roomCode}`);
+			if (roomRef.val().endedAt) {
+				toast.error(`A sala já foi fechada`);
+				return;
+			}
+
+			toast.success(`Seja bem-vindo a sala`);
+			history.push(`/rooms/${roomCode}`);
+		} catch (e) {
+			toast.error(`Ops, ocorreu um erro ao procurar pela sala`);
+		} finally {
+			toast.dismiss(loadingToast);
+		}
 	};
 
 	return (
