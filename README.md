@@ -14,6 +14,10 @@
     <img alt="Letmeask" src=".github/images/cover.svg" />
 </h1>
 
+[![thumbnail](https://user-images.githubusercontent.com/25959234/123528520-25b9dc80-d6be-11eb-9c40-df448d150dcb.jpg)](https://www.youtube.com/watch?v=xIKJdwypdQc)
+
+Você pode ver tudo sobre o que achei da [Next Level Week 6 aqui](https://www.youtube.com/watch?v=xIKJdwypdQc)
+
 <br>
 
 ## 🧪 Tecnologias
