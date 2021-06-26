@@ -1,6 +1,6 @@
 import { useHistory, useParams } from "react-router-dom";
 
-import { useAuth } from "../../hooks/useAuth";
+// import { useAuth } from "../../hooks/useAuth";
 import { useRoom } from "../../hooks/useRoom";
 
 import { Button } from "../../components/Button";
@@ -15,24 +15,24 @@ import AnswerImg from "../../assets/images/answer.svg";
 import { database } from "../../services/firebase";
 
 import "../../styles/room.scss";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 type RoomParams = {
   id: string;
 };
 
 export const AdminRoom = () => {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const history = useHistory();
   const params = useParams<RoomParams>();
   const roomId = params.id;
   const { title, questions } = useRoom(roomId);
 
-  useEffect(() => {
-    if (!user) {
-      throw new Error("You must be logged in ");
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (!user) {
+  //     throw new Error("You must be logged in ");
+  //   }
+  // }, [user]);
 
   const handleEndRoom = async () => {
     const alertMessage = "Tem certeza que deseja encerrar a sala?";
