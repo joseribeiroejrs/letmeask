@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { database } from "../services/firebase";
 import { useAuth } from "./useAuth";
 
-type QuestionType = {
+export type QuestionType = {
 	id?: string;
 	author: {
 		name: string;
