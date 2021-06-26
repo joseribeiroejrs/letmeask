@@ -46,17 +46,19 @@ export const useRoom = (roomId: string): useRoomResponseType => {
 
 	useEffect(() => {
 		const roomRef = database.ref(`rooms/${roomId}`);
+
 		roomRef.on("value", (room) => {
 			const databaseRoom = room.val();
 			const firebaseQuestions: FirebaseQuestions = databaseRoom.questions ?? {};
 			const parsedQuestions = Object.entries(firebaseQuestions).map(
 				([key, value]) => {
+					const { content, author, isAnswered, isHighlighted } = value;
 					return {
 						id: key,
-						content: value.content,
-						author: value.author,
-						isAnswered: value.isAnswered,
-						isHighlighted: value.isHighlighted,
+						content,
+						author,
+						isAnswered,
+						isHighlighted,
 						likeCount: Object.values(value.likes ?? {}).length,
 						likeId: Object.entries(value.likes ?? {}).find(
 							([key, like]) => like.authorId === user?.id
