@@ -1,4 +1,5 @@
 import React from "react";
+import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 import { QuestionType } from "../../../hooks/useRoom";
@@ -25,6 +26,7 @@ export const Like = ({ question }: LikeType): JSX.Element => {
 		if (likeId) {
 			await database.ref(`${query}/${likeId}`).remove();
 		} else {
+			toast.success(`A pergunta foi marcada como gostei`);
 			await database.ref(query).push({
 				authorId: user?.id,
 			});

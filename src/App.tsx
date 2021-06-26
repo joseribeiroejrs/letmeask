@@ -5,6 +5,7 @@ import { NewRoom } from "./pages/NewRoom";
 import { AuthContextProvider } from "./contexts/AuthContext";
 import { Room } from "./pages/Room";
 import { AdminRoom } from "./pages/AdminRoom";
+import { Toaster } from "react-hot-toast";
 
 const App = (): JSX.Element => {
 	return (
@@ -16,6 +17,7 @@ const App = (): JSX.Element => {
 					<Route path="/rooms/:id" component={Room} />
 					<Route path="/admin/rooms/:id" component={AdminRoom} />
 				</Switch>
+				<Toaster />
 			</AuthContextProvider>
 		</BrowserRouter>
 	);

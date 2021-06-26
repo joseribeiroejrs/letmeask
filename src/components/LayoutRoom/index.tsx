@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import toast from "react-hot-toast";
 import { Button } from "../Button";
 import { RoomCode } from "../RoomCode";
 
@@ -42,10 +43,18 @@ export const LayoutRoom = (props: LayoutRoomProps): JSX.Element => {
 	const handleEndRoom = async () => {
 		const alertMessage = "Tem certeza que deseja encerrar a sala?";
 		if (window.confirm(alertMessage)) {
-			await database.ref(`rooms/${roomId}`).update({
-				endedAt: new Date(),
-			});
-			history.push("/");
+			const loadToast = toast.loading(`Encerrando sala...`);
+			try {
+				await database.ref(`rooms/${roomId}`).update({
+					endedAt: new Date(),
+				});
+				history.push("/");
+				toast.success(`Sala encerrada com sucesso`);
+			} catch (e) {
+				toast.error(`Erro ao encerra a sala`);
+			} finally {
+				toast.dismiss(loadToast);
+			}
 		}
 	};
 
