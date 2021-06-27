@@ -1,9 +1,8 @@
-.custom-modal {
-	$min-height-modal: 350px;
-	$min-width-modal: 600px;
+$min-width-modal: 600px;
 
+.custom-modal {
 	border-radius: 8px;
-	min-width: $min-width-modal;
+	width: $min-width-modal;
 
 	.modal-container {
 		display: flex;
@@ -11,6 +10,11 @@
 		align-items: center;
 		justify-content: center;
 		padding: 32px;
+
+		.modal-title,
+		.modal-description {
+			text-align: center;
+		}
 
 		.modal-title {
 			color: #29292E;
@@ -30,6 +34,26 @@
 			display: flex;
 			gap: 16px;
 			margin-top: 16px;
+		}
+	}
+}
+
+@media screen and (max-width: $min-width-modal + 50px) {
+	.custom-modal {
+		max-width: 90%;
+
+		.modal-actions {
+			flex-direction: column;
+			width: 90%;
+			align-items: center;
+
+			button {
+				width: 90%;
+			}
+
+			.secondary {
+				order: 1;
+			}
 		}
 	}
 }
