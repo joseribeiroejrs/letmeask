@@ -20,6 +20,13 @@ Você pode ver tudo sobre o que achei da [Next Level Week 6 aqui](https://www.yo
 
 <br>
 
+
+## :rocket: Roadmap
+Você pode contribuir criando uma [Issue aqui](https://github.com/joseribeiroejrs/letmeask/issues)
+[![Roadmap 1](https://user-images.githubusercontent.com/25959234/123558913-5279fc80-d76f-11eb-93f2-ee1270995f8e.png)](https://github.com/joseribeiroejrs/letmeask/projects/1)
+[![Roadmap 2](https://user-images.githubusercontent.com/25959234/123558917-5443c000-d76f-11eb-96e6-68b12d33bd53.png)](https://github.com/joseribeiroejrs/letmeask/projects/1)
+
+
 ## 🧪 Tecnologias
 
 Esse projeto foi desenvolvido com as seguintes tecnologias:
