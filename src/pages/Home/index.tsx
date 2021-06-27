@@ -1,19 +1,30 @@
-import React, { FormEvent, useState } from "react";
+import React from "react";
 import { useHistory } from "react-router-dom";
 import toast from "react-hot-toast";
+import { useFormik } from "formik";
 
 import LogoImg from "../../assets/images/logo.svg";
 import GoogleIconImg from "../../assets/images/google-icon.svg";
 import { Button } from "../../components/Button";
-import "./styles.scss";
 import { useAuth } from "../../hooks/useAuth";
 import { database } from "../../services/firebase";
 import { AsideWelcomePage } from "../../components/AsideWelcomePage";
+import {
+	CodeFormType,
+	initialValues,
+	validationSchema,
+} from "../../shared/schemas/code.schema";
+import "./styles.scss";
 
 export const Home = (): JSX.Element => {
 	const history = useHistory();
 	const { user, signInWithGoogle } = useAuth();
-	const [roomCode, setRoomCode] = useState("");
+
+	const formik = useFormik({
+		initialValues,
+		validationSchema,
+		onSubmit: (formValue) => handleJoinRoom(formValue),
+	});
 
 	const handleCreateRoom = async () => {
 		const loadingToast = toast.loading(`Aguarde enquanto te identificamos...`);
@@ -31,15 +42,15 @@ export const Home = (): JSX.Element => {
 		}
 	};
 
-	const handleJoinRoom = async (event: FormEvent) => {
+	const handleJoinRoom = async (formValue: CodeFormType) => {
 		const loadingToast = toast.loading(`Procurando sala...`);
 		try {
-			event.preventDefault();
-			if (roomCode.trim() === "") {
+			const { code } = formValue;
+			if (code.trim() === "") {
 				return;
 			}
 
-			const roomRef = await database.ref(`rooms/${roomCode}`).get();
+			const roomRef = await database.ref(`rooms/${code}`).get();
 
 			if (!roomRef.exists()) {
 				toast.error(`A sala não existe`);
@@ -52,13 +63,25 @@ export const Home = (): JSX.Element => {
 			}
 
 			toast.success(`Seja bem-vindo a sala`);
-			history.push(`/rooms/${roomCode}`);
+			history.push(`/rooms/${code}`);
 		} catch (e) {
 			toast.error(`Ops, ocorreu um erro ao procurar pela sala`);
 		} finally {
 			toast.dismiss(loadingToast);
+			formik.resetForm({});
 		}
 	};
+
+	const isDisabledButton = () =>
+		!!formik.errors.code || formik.isSubmitting || !formik.values.code;
+
+	const renderErrorMessage = () => (
+		<div className="error-message">
+			{formik.touched.code && formik.errors.code ? (
+				<div>{formik.errors.code}</div>
+			) : null}
+		</div>
+	);
 
 	return (
 		<AsideWelcomePage>
@@ -69,13 +92,20 @@ export const Home = (): JSX.Element => {
 					Crie sua sala com o Google
 				</button>
 				<div className="separator">ou entre em uma sala</div>
-				<form onSubmit={(event) => handleJoinRoom(event)}>
+
+				<form onSubmit={formik.handleSubmit}>
 					<input
 						type="text"
+						name="code"
 						placeholder="Digite o código da sala"
-						onChange={(event) => setRoomCode(event.target.value)}
+						onChange={formik.handleChange}
+						onBlur={formik.handleBlur}
+						value={formik.values.code}
 					/>
-					<Button type="submit">Entrar na sala</Button>
+					{renderErrorMessage()}
+					<Button type="submit" disabled={isDisabledButton()}>
+						Entrar na sala
+					</Button>
 				</form>
 			</div>
 		</AsideWelcomePage>
