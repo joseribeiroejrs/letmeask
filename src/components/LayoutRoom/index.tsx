@@ -80,7 +80,7 @@ export const LayoutRoom = (props: LayoutRoomProps): JSX.Element => {
 				<div className="room-title">
 					<h1>{title}</h1>
 					<span>
-						{questions?.length} pergunta{questions?.length ? "s" : ""}
+						{questions?.length} pergunta{questions?.length > 1 ? "s" : ""}
 					</span>
 				</div>
 				<>{children}</>
